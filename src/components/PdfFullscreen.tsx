@@ -13,9 +13,11 @@ interface PdfFullscreenProps {
 
 const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { toast } = useToast();
   const [numPages, setNumPages] = useState<number>();
-  const { ref, width } = useResizeDetector();
+
+  const { toast } = useToast();
+
+  const { width, ref } = useResizeDetector();
 
   return (
     <Dialog
@@ -26,18 +28,13 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
         }
       }}
     >
-      <DialogTrigger>
-        <Button
-          onClick={() => setIsOpen(true)}
-          variant="ghost"
-          className="gap-1.5"
-          aria-label="full screen"
-        >
+      <DialogTrigger onClick={() => setIsOpen(true)} asChild>
+        <Button variant="ghost" className="gap-1.5" aria-label="fullscreen">
           <Expand className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="w-full max-w-7xl">
-        <SimpleBar autoHide={false} className="mt-6 max-h-[calc[100vh-10rem]]">
+        <SimpleBar autoHide={false} className="mt-6 max-h-[calc(100vh-10rem)]">
           <div ref={ref}>
             <Document
               loading={
@@ -56,30 +53,8 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
               file={fileUrl}
               className="max-h-full"
             >
-              {/* {isLoading && renderedScale ? (
-                <Page
-                  width={width ? width : 1}
-                  pageNumber={currPage}
-                  scale={scale}
-                  rotate={rotation}
-                  key={"@" + renderedScale}
-                />
-              ) : null} */}
               {new Array(numPages).fill(0).map((_, i) => (
-                <Page
-                  key={i}
-                  // className={cn(isLoading ? 'hidden' : '')}
-                  width={width ? width : 1}
-                  pageNumber={i + 1}
-                  loading={
-                    <div className="flex justify-center">
-                      <Loader2 className="my-24 h-6 w-6 animate-spin" />
-                    </div>
-                  }
-                  // onRenderSuccess={() =>
-                  //   setRenderedScale(scale)
-                  // }
-                />
+                <Page key={i} width={width ? width : 1} pageNumber={i + 1} />
               ))}
             </Document>
           </div>
