@@ -11,7 +11,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { useToast } from "./ui/use-toast";
 import { useResizeDetector } from "react-resize-detector";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import SimpleBar from "simplebar-react";
+import PdfFullscreen from "./PdfFullscreen";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -31,7 +32,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import PdfFullscreen from "./PdfFullscreen";
 
 interface PDFRendererProps {
   url: string;
